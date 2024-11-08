@@ -1,0 +1,8 @@
+BasicStore\ShoppingCartServlet.class
+BasicStore\ShoppingCart.class
+BasicStore\Products.class
+BasicStore\ProductsListener.class
+BasicStore\Product.class
+BasicStore\UserListener.class
+BasicStore\HomePageServlet.class
+BasicStore\ProductsServlet.class
