@@ -1,0 +1,2 @@
+1. syscalls that use only PTE_R bit. they will read from shared page, but won't chage it.
+2. there is PPN+flags/PPN is matched to PA start, last 10 bits are flags. Figure 3.2 shows each one./ and physical address for it.

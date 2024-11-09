@@ -1,0 +1,6 @@
+usertrap.
+7.
+user mode.
+80002052:	00002683          	lw	a3,0(zero), a3.
+tried to read from address which wasn't mapped, no, scause = 13 = Load page fault, yes.
+initcode\000\000\000\000\000\000\000, 1.
