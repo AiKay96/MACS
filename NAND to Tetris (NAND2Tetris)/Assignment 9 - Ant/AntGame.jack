@@ -1,0 +1,110 @@
+/**
+ * Represents a Ant game.
+ */
+class AntGame {
+
+    static AntGame instance; // A Ant game     
+    field Ant ant;            // ant
+    field int score;          // current score
+    field boolean restart;    // if player wants restart
+
+    /** Constructs a new Ant game. */
+    constructor AntGame new(int x, int y, int direction) {
+	    do Screen.clearScreen();
+        let ant = Ant.new(x, y, direction);
+	    let score = 0;
+        let restart = false;
+        return this;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+        do ant.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Creates an instance of a Ant game. */
+    function void newInstance(int x, int y, int direction) {
+        let instance = AntGame.new(x, y, direction);
+        return;
+    }
+    
+    /** Returns this Ant game. */
+    function AntGame getInstance() {
+        return instance;
+    }
+
+    /** Returns boolean restart. */
+    method boolean wantRestart() {
+        return restart;
+    }
+
+    /** Starts the game */
+    method void run() {
+        var int x, y, color;
+        var boolean pause, exit;
+        var char key, prevKey;
+
+        let pause = true;
+        let exit = false;
+        let key = 0;
+        let prevKey = 0;
+
+        do ant.show();
+
+        while (~exit) {
+            let key = Keyboard.keyPressed();
+            if (prevKey = 0 & key = 32) {
+                let pause = ~pause;
+            }
+            if (key = 82) {
+                let exit = true;
+                let restart = true;
+            }
+            if (key = 140) {
+                let exit = true;
+            }
+            let prevKey = key;
+
+            if(~pause & ~exit) {
+                if (getColor(ant.getX(), ant.getY()) = 0) {
+                    do ant.rotate(0);
+                    do ant.show();
+                } else {
+                    do ant.rotate(1);
+                    do ant.hide();
+                }
+                do ant.move();
+                let score = score + 1;
+            }
+        }
+
+	    if (exit) {
+            do Output.moveCursor(10,20);
+	        do Output.printString("Number of steps: ");
+            do Output.printInt(score);
+            do Sys.wait(2000);
+            do Screen.clearScreen();
+	    }
+            
+        return;
+    }
+    /** Checks color on screen. */
+    method int getColor(int x, int y){
+        var int address, value, bit, power;
+
+        let address = Math.multiply(y, 32) + Math.divide(x, 16);
+        let value = Memory.peek(16384 + address);
+
+        let bit = x - Math.multiply(Math.divide(x, 16), 16);
+        
+        let power = 1;
+        while (bit > 0) {
+            let bit = bit - 1;
+            let power = Math.multiply(power, 2);
+        }
+
+        return value & power;
+    }
+}

@@ -1,0 +1,33 @@
+MAX_INT = 2**16
+HALF_INT = 2**15
+
+COMP_MAPPING = {
+    "0101010": "0",
+    "0111111": "1",
+    "0111010": "MAX_INT - 1",
+    "0001100": "self.d",
+    "0110000": "self.a",
+    "0001101": "MAX_INT - (1 + self.d)",
+    "0110001": "MAX_INT - (1 + self.a)",
+    "0001111": "MAX_INT - self.d",
+    "0110011": "MAX_INT - self.a",
+    "0011111": "(self.d + 1) % MAX_INT",
+    "0110111": "(self.a + 1) % MAX_INT",
+    "0001110": "(self.d - 1) % MAX_INT",
+    "0110010": "(self.a - 1) % MAX_INT",
+    "0000010": "(self.d + self.a) % MAX_INT",
+    "0010011": "(self.d - self.a) % MAX_INT",
+    "0000111": "(self.a - self.d) % MAX_INT",
+    "0000000": "(self.d & self.a)",
+    "0010101": "(self.d | self.a)",
+    "1110000": "self.ram[str(self.a)]",
+    "1110001": "MAX_INT - (1 + self.ram[str(self.a)])",
+    "1110011": "MAX_INT - self.ram[str(self.a)]",
+    "1110111": "(self.ram[str(self.a)] + 1) % MAX_INT",
+    "1110010": "(self.ram[str(self.a)] - 1) % MAX_INT",
+    "1000010": "(self.d + self.ram[str(self.a)]) % MAX_INT",
+    "1010011": "(self.d - self.ram[str(self.a)]) % MAX_INT",
+    "1000111": "(self.ram[str(self.a)] - self.d) % MAX_INT",
+    "1000000": "self.d & self.ram[str(self.a)]",
+    "1010101": "self.d | self.ram[str(self.a)]",
+}

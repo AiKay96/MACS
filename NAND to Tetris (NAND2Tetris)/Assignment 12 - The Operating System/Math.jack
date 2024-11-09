@@ -1,0 +1,129 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Math.jack
+/**
+ *  A library of commonly used mathematical functions.
+ *  All functions run in O(n), where n is the number of bits used
+ *  for representing a two's complement integer value (16 in the Hack computer). 
+ *  Note: Jack compilers implement multiplication and division
+ *  using calls to OS functions in this class.
+ */
+class Math {
+    static int n;             // Number of bits used for representing a two's complement integer
+    static Array bits;
+
+    // Initializes the Math library.
+    function void init() {
+        let n = 16;
+        let bits = Array.new(n);
+        let bits[0] = 1;
+        let bits[1] = 2;
+        let bits[2] = 4;
+        let bits[3] = 8;
+        let bits[4] = 16;
+        let bits[5] = 32;
+        let bits[6] = 64;
+        let bits[7] = 128;
+        let bits[8] = 256;
+        let bits[9] = 512;
+        let bits[10] = 1024;
+        let bits[11] = 2048;
+        let bits[12] = 4096;
+        let bits[13] = 8192;
+        let bits[14] = 16384;
+        let bits[15] = 16384 + 16384;
+        return;
+    }
+
+    /** Returns the product of x and y. 
+     *  When a Jack compiler detects the multiplication operator '*'
+     *  in an expression, it handles it by invoking this method. 
+     *  Thus, in Jack, x * y and Math.multiply(x,y) return the same value. */
+    function int multiply(int x, int y) {
+        var int i, sum, shifted_x;
+
+        let i = 0;
+        let sum = 0;
+        let shifted_x = x;
+
+        while (i < 16) {
+            if (~((y & bits[i]) = 0)) {
+                let sum = sum + shifted_x;
+            }
+            let shifted_x = shifted_x + shifted_x;
+            let i = i + 1;
+        }
+        return sum;
+    }
+
+    /** Returns the integer part of x / y.
+     *  When a Jack compiler detects the division operator '/'
+     *  in an expression, it handles it by invoking this method.
+     *  Thus, x/y and Math.divide(x,y) return the same value. */
+    function int divide(int x, int y) {
+        var int absX, absY, q, result;
+
+        let absX = Math.abs(x);
+        let absY = Math.abs(y);
+        if (absY > absX) {
+            return 0;
+        }
+
+        let q = 0;
+        while (~(absX < absY)) {
+            let absX = absX - absY;
+            let q = q + 1;
+        }
+
+        let result = q;
+        if (((x < 0) & (y > 0)) | ((x > 0) & (y < 0))) {
+            return -result;
+        }
+
+        return result;
+    }
+
+    /** Returns the integer part of the square root of x. */
+    function int sqrt(int x) {
+        var int y, j, power;
+
+        let y = 0;
+        let j = 7;
+
+        while (~(j < 0)) {
+            let power = (y + bits[j]) * (y + bits[j]);
+            if (((power < x) | (power = x)) & (power > 0)) {
+                let y = y + bits[j];
+            }
+
+            let j = j - 1;
+        }
+
+        return y;
+    }
+
+    /** Returns the greater value. */
+    function int max(int a, int b) {
+        if (a > b) {
+            return a;
+        }
+        return b;
+    }
+
+    /** Returns the smaller value. */
+    function int min(int a, int b) {
+        if (a < b) {
+            return a;
+        }
+        return b;
+    }
+
+    /** Returns the absolute value of x. */
+    function int abs(int x) {
+        if (x < 0) {
+            return -x;
+        }
+        return x;
+    }
+}

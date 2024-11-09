@@ -1,0 +1,105 @@
+class Ant {
+
+    field int x, y;           // the Ant's screen location
+    field int direction;      // direction of the Ant's movement
+                              // (1 = north, 2 = east, 3 = south, 4 = west)
+    field int width, height;  // frame for Ant's moving area
+
+    /** Constructs a new Ant with the given location and direction. */
+    constructor Ant new(int Ax, int Ay, int Adirection) {
+        let x = Ax;
+        let y = Ay;
+        let direction = Adirection;
+        let width = 512;
+        let height = 256; 
+        return this;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Shows the Ant. */
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    /** Hides the Ant. */
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    /** Draws the Ant. */
+    method void draw() {
+        do Screen.drawPixel(x, y);
+        return;
+    }
+
+    /** Sets the Ant's direction (0 = clockwise, 1 = counter-clockwise). */
+    method void rotate(int Adirection) {
+        if (Adirection = 0) {
+            let direction = direction + 1;
+        }
+        if (Adirection = 1) {
+            let direction = direction - 1;
+        }
+        if (direction = 0) {
+            let direction = 4;
+        }
+        if (direction = 5) {
+            let direction = 1;
+        }
+        return;
+    }
+
+    /** Returns the Ant's x coordinate. */
+    method int getX() {
+        return x;
+    }
+
+    /** Returns the Ant's y coordinate. */
+    method int getY() {
+        return y;
+    }
+
+    /** Moves the Ant one step in the Ant's direction. */
+    method void move() {
+        if (direction = 1) {
+            let y = y - 1;
+        }
+        if (direction = 2) {
+            let x = x + 1;
+        }
+        if (direction = 3) {
+            let y = y + 1;
+        }
+        if (direction = 4) {
+            let x = x - 1;
+        }
+        do normalize();
+        return;
+    }
+
+    /** Normalizes Ant's coordinates to fit in frame. */
+    method void normalize() {
+        if (y = -1) {
+            let y = height - 1;
+        }
+        if (x = -1) {
+            let x = width - 1;
+        }
+        if (y = height) {
+            let y = 0;
+        }
+        if (x = width) {
+            let x = 0;
+        }
+        return;
+    }
+}

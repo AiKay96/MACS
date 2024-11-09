@@ -1,0 +1,33 @@
+/**
+ * Main class of the Ant game.
+ */
+class Main {
+    /** Initializes a Ant game and starts running it. */
+    function void main() {
+        var boolean exit;
+        var int x, y, direction;
+        var AntGame game;
+
+        let exit = false;
+        
+        while (~exit) {
+            do Output.moveCursor(0, 0);
+            do Output.printString("Enter Ant's x coordinate [0, 511]: ");
+            let x = Keyboard.readInt("");
+
+            do Output.printString("Enter Ant's y coordinate [0, 255]: ");
+            let y = Keyboard.readInt("");
+
+            do Output.printString("Enter Ant's direction [1 = N, 2 = E, 3 = S, 4 = W]: ");
+            let direction = Keyboard.readInt("");
+
+            do AntGame.newInstance(x, y, direction);
+            let game = AntGame.getInstance();
+            do game.run();
+            let exit = ~game.wantRestart();
+            do game.dispose();
+        }
+        
+        return;
+    }
+}
